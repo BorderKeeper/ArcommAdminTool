@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.27130.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArcommAdminTool", "ArcommAdminTool\ArcommAdminTool.csproj", "{5CECBF65-CE7B-4476-94EA-2D80F9827589}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher\Launcher.csproj", "{A5ED2D69-FEEC-4EC2-B751-ABD931BD23C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DebugLauncher", "DebugLauncher\DebugLauncher.csproj", "{B3CBD724-B27A-49AE-968B-696053AF82B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{5CECBF65-CE7B-4476-94EA-2D80F9827589}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CECBF65-CE7B-4476-94EA-2D80F9827589}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5CECBF65-CE7B-4476-94EA-2D80F9827589}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5ED2D69-FEEC-4EC2-B751-ABD931BD23C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5ED2D69-FEEC-4EC2-B751-ABD931BD23C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5ED2D69-FEEC-4EC2-B751-ABD931BD23C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5ED2D69-FEEC-4EC2-B751-ABD931BD23C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3CBD724-B27A-49AE-968B-696053AF82B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3CBD724-B27A-49AE-968B-696053AF82B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3CBD724-B27A-49AE-968B-696053AF82B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3CBD724-B27A-49AE-968B-696053AF82B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
