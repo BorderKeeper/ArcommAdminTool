@@ -32,7 +32,7 @@
             this.TroopDistributionTab = new System.Windows.Forms.TabPage();
             this.troopDistributionUserControl1 = new ArcommAdminTool.TroopDistribution.TroopDistributionUserControl();
             this.AbsenceTab = new System.Windows.Forms.TabPage();
-            this.label1 = new System.Windows.Forms.Label();
+            this.absenceAnnouncementUserControl1 = new ArcommAdminTool.AbsenceAnnouncements.AbsenceAnnouncementUserControl();
             this.MainFormControl.SuspendLayout();
             this.TroopDistributionTab.SuspendLayout();
             this.AbsenceTab.SuspendLayout();
@@ -68,7 +68,7 @@
             // 
             // AbsenceTab
             // 
-            this.AbsenceTab.Controls.Add(this.label1);
+            this.AbsenceTab.Controls.Add(this.absenceAnnouncementUserControl1);
             this.AbsenceTab.Location = new System.Drawing.Point(4, 22);
             this.AbsenceTab.Name = "AbsenceTab";
             this.AbsenceTab.Padding = new System.Windows.Forms.Padding(3);
@@ -77,14 +77,12 @@
             this.AbsenceTab.Text = "Absence Announcements";
             this.AbsenceTab.UseVisualStyleBackColor = true;
             // 
-            // label1
+            // absenceAnnouncementUserControl1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(22, 21);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(85, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Kingsley Gib API";
+            this.absenceAnnouncementUserControl1.Location = new System.Drawing.Point(0, 0);
+            this.absenceAnnouncementUserControl1.Name = "absenceAnnouncementUserControl1";
+            this.absenceAnnouncementUserControl1.Size = new System.Drawing.Size(403, 641);
+            this.absenceAnnouncementUserControl1.TabIndex = 0;
             // 
             // MainForm
             // 
@@ -98,7 +96,6 @@
             this.MainFormControl.ResumeLayout(false);
             this.TroopDistributionTab.ResumeLayout(false);
             this.AbsenceTab.ResumeLayout(false);
-            this.AbsenceTab.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -109,7 +106,7 @@
         private System.Windows.Forms.TabPage TroopDistributionTab;
         private System.Windows.Forms.TabPage AbsenceTab;
         private TroopDistribution.TroopDistributionUserControl troopDistributionUserControl1;
-        private System.Windows.Forms.Label label1;
+        private AbsenceAnnouncements.AbsenceAnnouncementUserControl absenceAnnouncementUserControl1;
     }
 }
 

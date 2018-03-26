@@ -28,10 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
+            this.AbsenceListView = new System.Windows.Forms.ListView();
+            this.SuspendLayout();
+            // 
+            // AbsenceListView
+            // 
+            this.AbsenceListView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.AbsenceListView.Location = new System.Drawing.Point(0, 0);
+            this.AbsenceListView.Name = "AbsenceListView";
+            this.AbsenceListView.Size = new System.Drawing.Size(608, 705);
+            this.AbsenceListView.TabIndex = 0;
+            this.AbsenceListView.UseCompatibleStateImageBehavior = false;
+            // 
+            // AbsenceAnnouncementUserControl
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.AbsenceListView);
+            this.Name = "AbsenceAnnouncementUserControl";
+            this.Size = new System.Drawing.Size(608, 705);
+            this.ResumeLayout(false);
+
         }
 
         #endregion
+
+        private System.Windows.Forms.ListView AbsenceListView;
     }
 }

@@ -10,53 +10,32 @@ namespace Launcher
     public static class LauncherWindow
     {
         // It's always nice to ask before downloading
-        private static readonly bool shouldPromptForUpgrade = true;
+        private static readonly bool ShouldPromptForUpgrade = true;
 
         // This is more or less a constant. But you could change this to read from 
         // a reg key that the user can set from an options menu or something. Options are nice. 
-        private static readonly bool disableAutomaticChecking = false;
+        private static readonly bool DisableAutomaticChecking = false;
 
         // The name of the local file where the binaries are saved and read from. 
-        private static readonly string assemblyFilePath = "ArcommAdminTool.dll";
+        private static readonly string AssemblyFilePath = "ArcommAdminTool.dll";
 
         // The name of the class in your binaries that implements ILauncher.
-        private static readonly string launcherClassName = "ArcommAdminTool.Launcher";
+        private static readonly string LauncherClassName = "ArcommAdminTool.Launcher";
 
-        // Your version number. A series of numbers separated by periods.
-        private static readonly Regex versionNumberRegex = new Regex(@"^[0-9]\.[0-9]\.[0-9]\.[0-9]$");
+        // Version number to extract from the version dll path
+        private static readonly string VersionRegex = @"[0-9]\.[0-9]\.[0-9]\.[0-9]";
 
-        private static readonly string latestVersionUrlRegex = @"https://github.com/BorderKeeper/ArcommAdminTool/releases/download/[0-9]\.[0-9]\.[0-9]\.[0-9]/ArcommAdminTool.dll";
+        // Desired DLL regex we want to extract from the service response
+        private static readonly string LatestVersionUrlRegex = $"https://github.com/BorderKeeper/ArcommAdminTool/releases/download/{VersionRegex}/ArcommAdminTool.dll";
 
-        // The URL that returns the version number of the latest release.
-        private static readonly string latestVersionUrl = "https://arcomm.co.uk/ArcommAdminTools/version.html";
-
-        // The URL of the actual file for the latest version.
-        private static string latestVersionDownload
-        {
-            get
-            {
-                var request = (HttpWebRequest) WebRequest.Create("https://api.github.com/repos/BorderKeeper/ArcommAdminTool/releases/latest");
-
-                request.Method = "GET";
-                request.UserAgent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36";
-
-                var response = (HttpWebResponse) request.GetResponse();
-
-                string content = string.Empty;
-                using (var stream = response.GetResponseStream())
-                {
-                    using (var streamReader = new StreamReader(stream))
-                    {
-                        content = streamReader.ReadToEnd();
-                    }
-                }
-
-                return Regex.Match(content, latestVersionUrlRegex).Value;
-            }
-        }
+        // Service url to get latest version dll and version number
+        private static readonly string LatestVersionGithubUrl = @"https://api.github.com/repos/BorderKeeper/ArcommAdminTool/releases/latest";
 
         // The name of the file that will store the latest version. 
-        private static readonly string latestVersionInfoFile = "version.html";
+        private static readonly string LatestVersionInfoFile = "version.html";
+
+        private static readonly string RequestMethod = "GET";
+        private static readonly string UserAgent = "ArcommAdminTool";
 
         [STAThread]
         public static void Main(string[] args)
@@ -73,7 +52,7 @@ namespace Launcher
             }
             else
             {
-                ILauncher launcher = binaries.CreateInstance(launcherClassName) as ILauncher;
+                ILauncher launcher = binaries.CreateInstance(LauncherClassName) as ILauncher;
                 launcher.Launch();
             }
         }
@@ -85,49 +64,25 @@ namespace Launcher
         // a general .NET restriction. 
         private static string GetLocalVersionNumber()
         {
-            if (File.Exists(latestVersionInfoFile) && File.Exists(assemblyFilePath))
+            if (File.Exists(LatestVersionInfoFile) && File.Exists(AssemblyFilePath))
             {
-                return File.ReadAllText(latestVersionInfoFile);
+                return File.ReadAllText(LatestVersionInfoFile);
             }
             return null;
         }
 
         private static void SetLocalVersionNumber(string version)
         {
-            File.WriteAllText(latestVersionInfoFile, version);
-        }
-
-        /// <summary>
-        /// Gets the latest version number from the server.
-        /// </summary>
-        private static string GetLatestVersion()
-        {
-            Uri latestVersionUri = new Uri(latestVersionUrl);
-            WebClient webClient = new WebClient();
-            string receivedData = string.Empty;
-
-            try
-            {
-                receivedData = webClient.DownloadString(latestVersionUrl).Trim();
-            }
-            catch (WebException)
-            {
-                // server or connection is having issues
-            }
-
-            // Just in case the server returned something other than a valid version number. 
-            return versionNumberRegex.IsMatch(receivedData)
-                ? receivedData
-                : null;
+            File.WriteAllText(LatestVersionInfoFile, version);
         }
 
         private static Assembly GetLocalAssembly()
         {
-            if (File.Exists(assemblyFilePath))
+            if (File.Exists(AssemblyFilePath))
             {
                 try
                 {
-                    return Assembly.LoadFrom(assemblyFilePath);
+                    return Assembly.LoadFrom(AssemblyFilePath);
                 }
                 catch (Exception) { }
             }
@@ -137,16 +92,16 @@ namespace Launcher
 
         private static Assembly GetAssembly()
         {
-            bool localAssemblyExists = File.Exists(assemblyFilePath);
+            bool localAssemblyExists = File.Exists(AssemblyFilePath);
 
-            if (disableAutomaticChecking && localAssemblyExists)
+            if (DisableAutomaticChecking && localAssemblyExists)
             {
                 return GetLocalAssembly();
             }
 
-            string latestVersion = GetLatestVersion();
+            Release latestRelease = GetLatestRelease();
 
-            if (latestVersion == null)
+            if (latestRelease == null)
             {
                 // Something wrong with connection/server.
                 // Just go with the local assembly. 
@@ -155,12 +110,12 @@ namespace Launcher
 
             string localVersion = GetLocalVersionNumber();
 
-            if (ShallIDownloadTheLatestBinaries(localVersion, latestVersion, shouldPromptForUpgrade))
+            if (ShallIDownloadTheLatestBinaries(localVersion, latestRelease.Version, ShouldPromptForUpgrade))
             {
-                bool success = DownloadLatestAssembly();
+                bool success = DownloadLatestAssembly(latestRelease.DllPath);
                 if (success)
                 {
-                    SetLocalVersionNumber(latestVersion);
+                    SetLocalVersionNumber(latestRelease.Version);
                 }
             }
 
@@ -185,24 +140,24 @@ namespace Launcher
                 MessageBoxButton.YesNo);
         }
 
-        private static bool DownloadLatestAssembly()
+        private static bool DownloadLatestAssembly(string dllPath)
         {
             WebClient downloader = new WebClient();
             try
             {
-                byte[] latestVersionBytes = downloader.DownloadData(latestVersionDownload);
+                byte[] latestVersionBytes = downloader.DownloadData(dllPath);
 
                 // use a temporary download location in case something goes wrong, we don't want to 
                 // corrupt the program and make it unusable without making the user manually delete files. 
-                string temporaryPath = "t_" + assemblyFilePath;
+                string temporaryPath = "t_" + AssemblyFilePath;
                 File.WriteAllBytes(temporaryPath, latestVersionBytes);
 
-                if (File.Exists(assemblyFilePath))
+                if (File.Exists(AssemblyFilePath))
                 {
-                    File.Delete(assemblyFilePath);
+                    File.Delete(AssemblyFilePath);
                 }
 
-                File.Move(temporaryPath, assemblyFilePath);
+                File.Move(temporaryPath, AssemblyFilePath);
             }
             catch (Exception)
             {
@@ -211,5 +166,45 @@ namespace Launcher
             }
             return true;
         }
+
+        private static Release GetLatestRelease()
+        {
+            var request = (HttpWebRequest) WebRequest.Create(LatestVersionGithubUrl);
+
+            request.Method = RequestMethod;
+            request.UserAgent = UserAgent;
+
+            var response = (HttpWebResponse) request.GetResponse();
+
+            string content = string.Empty;
+            using (var stream = response.GetResponseStream())
+            {
+                using (var streamReader = new StreamReader(stream))
+                {
+                    content = streamReader.ReadToEnd();
+                }
+            }
+
+            Match latestReleaseUrl = Regex.Match(content, LatestVersionUrlRegex);
+            Match latestVersion = Regex.Match(latestReleaseUrl.Value, VersionRegex);
+
+            if (latestReleaseUrl.Success && latestVersion.Success)
+            {
+                return new Release
+                {
+                    Version = latestVersion.Value,
+                    DllPath = latestReleaseUrl.Value
+                };
+            }
+
+            return null;
+        }
+    }
+
+    public class Release
+    {
+        public string Version { get; set; }
+
+        public string DllPath { get; set; }
     }
 }
