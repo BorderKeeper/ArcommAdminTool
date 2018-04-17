@@ -13,8 +13,15 @@ namespace ArcommAdminTool.TroopDistribution
         {
             get
             {
-                decimal.TryParse(BluforRatioText.Text, out decimal bluforRatio);               
-                return bluforRatio;               
+                var success = decimal.TryParse(BluforRatioText.Text, out decimal bluforRatio);
+
+                if (success)
+                {
+                    return bluforRatio;
+                }
+
+                BluforRatioText.Text = "1";
+                return BluforRatio;
             }
         }
 
@@ -22,8 +29,15 @@ namespace ArcommAdminTool.TroopDistribution
         {
             get
             {
-                decimal.TryParse(OpforRatioText.Text, out decimal opforRatio);
-                return opforRatio;
+                var success = decimal.TryParse(OpforRatioText.Text, out decimal opforRatio);
+
+                if (success)
+                {
+                    return opforRatio;
+                }
+
+                OpforRatioText.Text = "1";
+                return OpforRatio;
             }
         }
 

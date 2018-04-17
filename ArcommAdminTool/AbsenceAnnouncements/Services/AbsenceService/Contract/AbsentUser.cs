@@ -1,4 +1,4 @@
-﻿namespace ArcommAdminTool.AbsenceAnnouncements.Entities
+﻿namespace ArcommAdminTool.AbsenceAnnouncements.Services.AbsenceService.Contract
 {
     public class AbsentUser
     {

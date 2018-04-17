@@ -1,22 +1,20 @@
 ﻿using System.IO;
 using System.Net;
 using System.Threading.Tasks;
-using ArcommAdminTool.AbsenceAnnouncements.Entities;
+using ArcommAdminTool.AbsenceAnnouncements.Services.AbsenceService.Contract;
 using Newtonsoft.Json;
 
-namespace ArcommAdminTool.AbsenceAnnouncements.Services
+namespace ArcommAdminTool.AbsenceAnnouncements.Services.AbsenceService
 {
-    public class SteamUserService
+    public class AbsenceService
     {
-        private static readonly string ServiceUri = @"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=key&steamids={0}";
+        private static readonly string AbsenceQueryUri = @"https://arcomm.co.uk/api/absence";
         private static readonly string RequestMethod = "GET";
         private static readonly string UserAgent = "ArcommAdminTool";
 
-        public async Task<SteamPlayers> GetPlayerData(Task<Absences> absence)
+        public async Task<Absences> GetAbsences()
         {
-            var url = string.Format(ServiceUri, string.Join(",", absence));
-
-            var request = (HttpWebRequest) WebRequest.Create(url);
+            var request = (HttpWebRequest) WebRequest.Create(AbsenceQueryUri);
 
             request.Method = RequestMethod;
             request.UserAgent = UserAgent;
@@ -32,9 +30,9 @@ namespace ArcommAdminTool.AbsenceAnnouncements.Services
                 }
             }
 
-            var steamUsers = JsonConvert.DeserializeObject<SteamPlayers>(content);
+            var absences = JsonConvert.DeserializeObject<Absences>(content);
 
-            return steamUsers;
+            return absences;
         }
     }
 }

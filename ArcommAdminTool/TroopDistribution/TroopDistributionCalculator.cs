@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using ArcommAdminTool.TroopDistribution.Entities;
 using ArcommAdminTool.TroopDistribution.TrainingData;
 
@@ -20,8 +22,8 @@ namespace ArcommAdminTool.TroopDistribution
         {
             var trainingDataResult = _dataProvider.GetTrainingData();
 
-            var bluforPlayers = (int) (command.IsPvp ? command.PlayersForCalculation * command.Ratio.Value : command.PlayersForCalculation);
-            var opforPlayers = command.PlayersForCalculation - bluforPlayers;           
+            var opforPlayers = (int) Math.Ceiling(command.IsPvp ? command.PlayersForCalculation * command.Ratio.Value : command.PlayersForCalculation);
+            var bluforPlayers = command.PlayersForCalculation - opforPlayers;           
 
             Platoon blufor = ConvertTrainingSet(trainingDataResult, bluforPlayers, command.MinimumFireteamSize, TeamSide.Blufor);
             Platoon opfor = null;
@@ -70,6 +72,13 @@ namespace ArcommAdminTool.TroopDistribution
         {
             //Get all training platoons that match the player count, could differ in FT distribution
             var matchingPlayerCount = set.Items.Where(trainingPlatoon => int.Parse(trainingPlatoon.totalPlayers) == numberOfPlayers);
+
+            //If number of players is too big, then return the biggest
+            if (!matchingPlayerCount.Any())
+            {
+                var biggestSet = set.Items.Select(trainingPlatoon => int.Parse(trainingPlatoon.totalPlayers)).Max();
+                matchingPlayerCount = set.Items.Where(trainingPlatoon => int.Parse(trainingPlatoon.totalPlayers) == biggestSet);
+            }
 
             //Get the biggest fireteam size available, but not bigger than minimumFireteamSize
             //ie. If 6 is selected choose biggest in this order 6 5 4, because 6 is last. if 4 is selected select 4

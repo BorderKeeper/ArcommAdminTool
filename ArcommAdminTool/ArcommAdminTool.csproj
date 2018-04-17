@@ -57,15 +57,17 @@
     <Compile Include="AbsenceAnnouncements\AbsenceAnnouncementUserControl.Designer.cs">
       <DependentUpon>AbsenceAnnouncementUserControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="AbsenceAnnouncements\Entities\SteamPlayer.cs" />
-    <Compile Include="AbsenceAnnouncements\Entities\SteamPlayers.cs" />
-    <Compile Include="AbsenceAnnouncements\Services\AbsenceService.cs" />
-    <Compile Include="AbsenceAnnouncements\Entities\Absence.cs" />
-    <Compile Include="AbsenceAnnouncements\Entities\Absences.cs" />
-    <Compile Include="AbsenceAnnouncements\Entities\AbsentUser.cs" />
-    <Compile Include="AbsenceAnnouncements\Entities\Operation.cs" />
-    <Compile Include="AbsenceAnnouncements\Entities\OperationStart.cs" />
-    <Compile Include="AbsenceAnnouncements\Services\SteamUserService.cs" />
+    <Compile Include="AbsenceAnnouncements\Entities\AbsenceListRow.cs" />
+    <Compile Include="AbsenceAnnouncements\Entities\PlayerAbsenceListRow.cs" />
+    <Compile Include="AbsenceAnnouncements\Entities\SteamUser.cs" />
+    <Compile Include="AbsenceAnnouncements\ListViewColumnSorter.cs" />
+    <Compile Include="AbsenceAnnouncements\Services\AbsenceService\AbsenceService.cs" />
+    <Compile Include="AbsenceAnnouncements\Services\AbsenceService\Contract\Absences.cs" />
+    <Compile Include="AbsenceAnnouncements\Services\AbsenceService\Contract\AbsentUser.cs" />
+    <Compile Include="AbsenceAnnouncements\Services\AbsenceService\Contract\Operation.cs" />
+    <Compile Include="AbsenceAnnouncements\Services\SteamService\Contract\Response.cs" />
+    <Compile Include="AbsenceAnnouncements\Services\SteamService\SteamUserService.cs" />
+    <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
