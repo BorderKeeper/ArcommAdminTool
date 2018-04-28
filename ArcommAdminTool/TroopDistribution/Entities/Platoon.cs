@@ -6,11 +6,12 @@ namespace ArcommAdminTool.TroopDistribution.Entities
 {
     public class Platoon : ITreeMember
     {
-        public Platoon(TeamSide side)
+        public Platoon(TeamSide side, int idealFireteamSize)
         {
             Side = side;
             Squads = new List<Squad>();
             SupporingRoles = 0;
+            IdealFireteamSize = idealFireteamSize;
         }
 
         public TeamSide Side { get; set; }
@@ -19,9 +20,11 @@ namespace ArcommAdminTool.TroopDistribution.Entities
 
         public int SupporingRoles { get; set; }
 
+        public int IdealFireteamSize { get; set; }
+
         public Squad AddSquad(SquadSign sign)
         {
-            Squad sq = new Squad(sign);
+            Squad sq = new Squad(sign, IdealFireteamSize);
 
             Squads.Add(sq);
 

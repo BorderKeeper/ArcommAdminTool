@@ -6,11 +6,12 @@ namespace ArcommAdminTool.TroopDistribution.Entities
 {
     public class Squad : ITreeMember
     {
-        public Squad(SquadSign squadSign)
+        public Squad(SquadSign squadSign, int idealFireteamSize)
         {
             Sign = squadSign;
             Fireteams = new List<Fireteam>();
             SupportingRoles = 0;
+            IdealFireteamSize = idealFireteamSize;
         }
 
         public SquadSign Sign { get; set; }
@@ -19,9 +20,11 @@ namespace ArcommAdminTool.TroopDistribution.Entities
 
         public int SupportingRoles { get; set; }
 
+        public int IdealFireteamSize { get; set; }
+
         public void AddFireTeam(int occupancy)
         {
-            Fireteams.Add(new Fireteam(Sign, Fireteams.Count + 1, occupancy));
+            Fireteams.Add(new Fireteam(Sign, Fireteams.Count + 1, occupancy, IdealFireteamSize));
 
             if (Fireteams.Count > 1)
             {

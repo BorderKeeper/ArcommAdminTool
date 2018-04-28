@@ -8,7 +8,6 @@ namespace ArcommAdminTool.TroopDistribution
 {
     public class TroopDistributionCalculator
     {
-        public static int FullFireteam = 6;
         public static int FullLeadership = 2;
 
         private readonly TrainingDataProvider _dataProvider;
@@ -22,8 +21,8 @@ namespace ArcommAdminTool.TroopDistribution
         {
             var trainingDataResult = _dataProvider.GetTrainingData();
 
-            var opforPlayers = (int) Math.Ceiling(command.IsPvp ? command.PlayersForCalculation * command.Ratio.Value : command.PlayersForCalculation);
-            var bluforPlayers = command.PlayersForCalculation - opforPlayers;           
+            var bluforPlayers = (int) Math.Ceiling(command.IsPvp ? command.PlayersForCalculation * command.Ratio.Value : command.PlayersForCalculation);
+            var opforPlayers = command.PlayersForCalculation - bluforPlayers;           
 
             Platoon blufor = ConvertTrainingSet(trainingDataResult, bluforPlayers, command.MinimumFireteamSize, TeamSide.Blufor);
             Platoon opfor = null;
@@ -47,7 +46,7 @@ namespace ArcommAdminTool.TroopDistribution
         {
             var chosenPlatoon = ChoosePlatoon(set, numberOfPlayers, minimumFireteamSize);
 
-            Platoon platoon = new Platoon(side);
+            Platoon platoon = new Platoon(side, minimumFireteamSize);
 
             platoon.SupporingRoles = int.Parse(chosenPlatoon.players);
 
