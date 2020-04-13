@@ -6,7 +6,12 @@ using ArcommAdminTool.Common.Exceptions.Enums;
 
 namespace ArcommAdminTool.TroopDistribution.TrainingData
 {
-    public class TrainingDataProvider
+    public interface ITrainingDataProvider
+    {
+        TrainingSet GetTrainingData();
+    }
+
+    public class TrainingDataProvider : ITrainingDataProvider
     {
         private const string TrainingDataFileName = "TrainingData.xml";
 

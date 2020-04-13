@@ -87,6 +87,7 @@
     <Compile Include="TroopDistribution\Entities\Squad.cs" />
     <Compile Include="TroopDistribution\Entities\TeamSide.cs" />
     <Compile Include="TroopDistribution\Entities\TroopDistributionResult.cs" />
+    <Compile Include="TroopDistribution\TrainingDataValidator.cs" />
     <Compile Include="TroopDistribution\TrainingData\Entities\TrainingResult.cs" />
     <Compile Include="TroopDistribution\TrainingData\TrainingDataProvider.cs" />
     <Compile Include="TroopDistribution\TroopDistributionCalculator.cs" />

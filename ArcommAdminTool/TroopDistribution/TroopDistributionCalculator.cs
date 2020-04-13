@@ -9,9 +9,7 @@ namespace ArcommAdminTool.TroopDistribution
     {
         public static int FullLeadership = 2;
 
-        public static int NumberOfZeuses = 1;
-
-        private readonly TrainingDataProvider _dataProvider;
+        private readonly ITrainingDataProvider _dataProvider;
 
         public TroopDistributionCalculator()
         {
@@ -22,7 +20,7 @@ namespace ArcommAdminTool.TroopDistribution
         {
             var trainingDataResult = _dataProvider.GetTrainingData();
 
-            var bluforPlayers = (int) Math.Ceiling(command.IsPvp ? GetBluforPlayersForPvp(command) : GetBluforPlayersForCoop(command));
+            var bluforPlayers = (int) Math.Ceiling(command.IsPvp ? GetBluforPlayersForPvp(command) : command.PlayersForCalculation);
             var opforPlayers = command.PlayersForCalculation - bluforPlayers;           
 
             Platoon blufor = ConvertTrainingSet(trainingDataResult, bluforPlayers, command.MinimumFireteamSize, TeamSide.Blufor);
@@ -40,16 +38,11 @@ namespace ArcommAdminTool.TroopDistribution
                 Opfor = opfor,
                 SpecialRoles = command.SpecialRolePlayers != 0 ? new SpecialPlatoon("Special roles", command.SpecialRolePlayers) : null,
                 ExtraPlayers = unusedPlayers != 0 ? new SpecialPlatoon("Unused players", unusedPlayers) : null,
-                Zeus = command.IsPvp ? null : new SpecialPlatoon("Zeus", NumberOfZeuses)
+                Zeus = command.IsPvp ? null : new SpecialPlatoon("Zeus", command.NumberOfZeuses)
             };
         }
 
-        private static int GetBluforPlayersForCoop(TroopDistributionCommand command)
-        {
-            return command.PlayersForCalculation - NumberOfZeuses;
-        }
-
-        private static decimal GetBluforPlayersForPvp(TroopDistributionCommand command)
+        private decimal GetBluforPlayersForPvp(TroopDistributionCommand command)
         {
             return command.PlayersForCalculation * command.Ratio.Value;
         }
@@ -60,7 +53,7 @@ namespace ArcommAdminTool.TroopDistribution
 
             Platoon platoon = new Platoon(side, minimumFireteamSize);
 
-            platoon.SupporingRoles = int.Parse(chosenPlatoon.players);
+            platoon.SupportingRoles = int.Parse(chosenPlatoon.players);
 
             int squadCounter = 0;
             foreach (TrainingSetPlatoonSquad trainingSquad in chosenPlatoon.Squad)

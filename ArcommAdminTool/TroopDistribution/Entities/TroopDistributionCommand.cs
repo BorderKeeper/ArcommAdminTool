@@ -8,10 +8,12 @@
 
         public int SpecialRolePlayers { get; set; }
 
+        public int NumberOfZeuses { get; set; }
+
         public decimal? Ratio { get; set; }
 
         public int MinimumFireteamSize { get; set; }
 
-        public int PlayersForCalculation => NumberOfPlayers - SpecialRolePlayers;
+        public int PlayersForCalculation => NumberOfPlayers - SpecialRolePlayers - NumberOfZeuses;
     }
 }

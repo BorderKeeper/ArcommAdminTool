@@ -94,7 +94,7 @@
   <Platoon totalPlayers="16" minimumSize="4" players="0">
     <Squad players="2">
       <Fireteam players="5"></Fireteam> 
-      <Fireteam players="4"></Fireteam> 
+      <Fireteam players="5"></Fireteam> 
       <Fireteam players="4"></Fireteam> 
     </Squad>
   </Platoon>
@@ -211,7 +211,7 @@
       <Fireteam players="5"></Fireteam> 
     </Squad>
     <Squad players="2">
-      <Fireteam players="6"></Fireteam> 
+      <Fireteam players="5"></Fireteam> 
       <Fireteam players="5"></Fireteam> 
     </Squad>
   </Platoon>
@@ -229,7 +229,7 @@
   <Platoon totalPlayers="28" minimumSize="5" players="2">
     <Squad players="2">
       <Fireteam players="6"></Fireteam> 
-      <Fireteam players="6"></Fireteam> 
+      <Fireteam players="5"></Fireteam> 
     </Squad>
     <Squad players="2">
       <Fireteam players="6"></Fireteam> 
@@ -298,8 +298,8 @@
       <Fireteam players="5"></Fireteam> 
     </Squad>
     <Squad players="2">
-      <Fireteam players="6"></Fireteam> 
-      <Fireteam players="6"></Fireteam> 
+      <Fireteam players="5"></Fireteam> 
+      <Fireteam players="5"></Fireteam> 
     </Squad>
   </Platoon>
   <Platoon totalPlayers="32" minimumSize="4" players="2">
@@ -316,13 +316,13 @@
   </Platoon>
   <Platoon totalPlayers="32" minimumSize="5" players="2">
     <Squad players="2">
-      <Fireteam players="6"></Fireteam> 
+      <Fireteam players="5"></Fireteam> 
       <Fireteam players="5"></Fireteam> 
       <Fireteam players="5"></Fireteam> 
     </Squad>
     <Squad players="2">
       <Fireteam players="6"></Fireteam> 
-      <Fireteam players="6"></Fireteam> 
+      <Fireteam players="5"></Fireteam> 
     </Squad>
   </Platoon>
   <Platoon totalPlayers="33" minimumSize="4" players="2">
@@ -340,12 +340,12 @@
   <Platoon totalPlayers="33" minimumSize="5" players="2">
     <Squad players="2">
       <Fireteam players="6"></Fireteam> 
-      <Fireteam players="6"></Fireteam> 
+      <Fireteam players="5"></Fireteam> 
       <Fireteam players="5"></Fireteam> 
     </Squad>
     <Squad players="2">
       <Fireteam players="6"></Fireteam> 
-      <Fireteam players="6"></Fireteam> 
+      <Fireteam players="5"></Fireteam> 
     </Squad>
   </Platoon>
   <Platoon totalPlayers="34" minimumSize="4" players="2">
@@ -364,11 +364,11 @@
     <Squad players="2">
       <Fireteam players="6"></Fireteam> 
       <Fireteam players="6"></Fireteam> 
-      <Fireteam players="6"></Fireteam> 
+      <Fireteam players="5"></Fireteam> 
     </Squad>
     <Squad players="2">
       <Fireteam players="6"></Fireteam> 
-      <Fireteam players="6"></Fireteam> 
+      <Fireteam players="5"></Fireteam> 
     </Squad>
   </Platoon>
   <Platoon totalPlayers="35" minimumSize="4" players="2">

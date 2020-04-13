@@ -10,7 +10,7 @@ namespace ArcommAdminTool.TroopDistribution.Entities
         {
             Side = side;
             Squads = new List<Squad>();
-            SupporingRoles = 0;
+            SupportingRoles = 0;
             IdealFireteamSize = idealFireteamSize;
         }
 
@@ -18,7 +18,7 @@ namespace ArcommAdminTool.TroopDistribution.Entities
 
         public List<Squad> Squads { get; set; }
 
-        public int SupporingRoles { get; set; }
+        public int SupportingRoles { get; set; }
 
         public int IdealFireteamSize { get; set; }
 
@@ -30,13 +30,13 @@ namespace ArcommAdminTool.TroopDistribution.Entities
 
             if (Squads.Count > 1)
             {
-                SupporingRoles = TroopDistributionCalculator.FullLeadership;
+                SupportingRoles = TroopDistributionCalculator.FullLeadership;
             }
 
             return sq;
         }
 
-        public int Occupancy => Squads.Sum(squad => squad.Occupancy) + SupporingRoles;
+        public int Occupancy => Squads.Sum(squad => squad.Occupancy) + SupportingRoles;
 
         public TreeNode ToTree()
         {
@@ -47,6 +47,6 @@ namespace ArcommAdminTool.TroopDistribution.Entities
             return node;    
         }
 
-        public string Name => $"{Side} [{SupporingRoles}/{TroopDistributionCalculator.FullLeadership}]";
+        public string Name => $"{Side} [{SupportingRoles}/{TroopDistributionCalculator.FullLeadership}]";
     }
 }

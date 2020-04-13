@@ -80,7 +80,8 @@ namespace ArcommAdminTool.TroopDistribution
                     NumberOfPlayers = NumberOfPlayers,
                     Ratio = IsPvp ? Ratio : new decimal?(),
                     SpecialRolePlayers = SpecialRolePlayers,
-                    MinimumFireteamSize = IdealFireteamSize
+                    MinimumFireteamSize = IdealFireteamSize,
+                    NumberOfZeuses = IsPvp ? 0 : 1
                 };
 
                 return true;
