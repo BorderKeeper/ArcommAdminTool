@@ -77,15 +77,15 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(189, 10);
+            this.label1.Location = new System.Drawing.Point(186, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(107, 13);
+            this.label1.Size = new System.Drawing.Size(75, 13);
             this.label1.TabIndex = 21;
-            this.label1.Text = "Special Role Players:";
+            this.label1.Text = "Special Roles:";
             // 
             // SpecialRolePlayersText
             // 
-            this.SpecialRolePlayersText.Location = new System.Drawing.Point(302, 7);
+            this.SpecialRolePlayersText.Location = new System.Drawing.Point(267, 6);
             this.SpecialRolePlayersText.Name = "SpecialRolePlayersText";
             this.SpecialRolePlayersText.Size = new System.Drawing.Size(67, 20);
             this.SpecialRolePlayersText.TabIndex = 20;

@@ -67,7 +67,10 @@
     <Compile Include="AbsenceAnnouncements\Services\AbsenceService\Contract\Operation.cs" />
     <Compile Include="AbsenceAnnouncements\Services\SteamService\Contract\Response.cs" />
     <Compile Include="AbsenceAnnouncements\Services\SteamService\SteamUserService.cs" />
+    <Compile Include="Common\Exceptions\Enums\Severity.cs" />
     <Compile Include="Common\Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Common\Exceptions\ExceptionHandler.cs" />
+    <Compile Include="Common\Extensions\StringExtensions.cs" />
     <Compile Include="Launcher.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>

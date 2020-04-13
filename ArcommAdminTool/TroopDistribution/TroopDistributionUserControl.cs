@@ -1,65 +1,28 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
+using ArcommAdminTool.Common.Exceptions;
+using ArcommAdminTool.Common.Extensions;
 using ArcommAdminTool.TroopDistribution.Entities;
 
 namespace ArcommAdminTool.TroopDistribution
 {
     public partial class TroopDistributionUserControl : UserControl
     {
+        private const string ValidationAlert = "One of the fields entered above was invalid";
+
         private readonly TroopDistributionCalculator _calculator;
 
         public bool IsPvp => PvpCheckbox.Checked;
 
-        public decimal BluforRatio
-        {
-            get
-            {
-                var success = decimal.TryParse(BluforRatioText.Text, out decimal bluforRatio);
+        public decimal BluforRatio => decimal.Parse(BluforRatioText.Text.IsEmpty() ? "0" : BluforRatioText.Text.RemoveNonDecimalChars());
 
-                if (success)
-                {
-                    return bluforRatio;
-                }
-
-                BluforRatioText.Text = "1";
-                return BluforRatio;
-            }
-        }
-
-        public decimal OpforRatio
-        {
-            get
-            {
-                var success = decimal.TryParse(OpforRatioText.Text, out decimal opforRatio);
-
-                if (success)
-                {
-                    return opforRatio;
-                }
-
-                OpforRatioText.Text = "1";
-                return OpforRatio;
-            }
-        }
+        public decimal OpforRatio => decimal.Parse(OpforRatioText.Text.IsEmpty() ? "0" : OpforRatioText.Text.RemoveNonDecimalChars());
 
         public decimal Ratio => OpforRatio / (BluforRatio + OpforRatio);
 
-        public int NumberOfPlayers
-        {
-            get
-            {
-                int.TryParse(NumberOfPlayersTextbox.Text, out int numberOfPlayers);
-                return numberOfPlayers;
-            }
-        }
+        public int NumberOfPlayers => int.Parse(NumberOfPlayersTextbox.Text.IsEmpty() ? "0" : NumberOfPlayersTextbox.Text);
 
-        public int SpecialRolePlayers
-        {
-            get
-            {
-                int.TryParse(SpecialRolePlayersText.Text, out int specialRolePlayers);
-                return specialRolePlayers;
-            }
-        }
+        public int SpecialRolePlayers => int.Parse(SpecialRolePlayersText.Text.IsEmpty() ? "0" : SpecialRolePlayersText.Text);
 
         public int IdealFireteamSize
         {
@@ -77,7 +40,7 @@ namespace ArcommAdminTool.TroopDistribution
             _calculator = new TroopDistributionCalculator();
         }
 
-        private void PvpCheckbox_CheckedChanged(object sender, System.EventArgs e)
+        private void PvpCheckbox_CheckedChanged(object sender, EventArgs e)
         {
             PvpFieldsVisibility(PvpCheckbox.Checked);
         }
@@ -89,21 +52,44 @@ namespace ArcommAdminTool.TroopDistribution
             OpforRatioText.Visible = visible;
         }
 
-        private void CalculateButton_Click(object sender, System.EventArgs e)
+        private void CalculateButton_Click(object sender, EventArgs e)
         {
             TroopDistributionTree.Nodes.Clear();
 
-            TroopDistributionResult result = _calculator.Calculate(new TroopDistributionCommand
+            var success = GetCommand(out TroopDistributionCommand command);
+
+            if (!success)
             {
-                IsPvp = IsPvp,
-                NumberOfPlayers = NumberOfPlayers,
-                Ratio = IsPvp ? Ratio : new decimal?(),
-                SpecialRolePlayers = SpecialRolePlayers,
-                MinimumFireteamSize = IdealFireteamSize
-            });
+                ExceptionHandler.ShowValidationErrorBox(ValidationAlert);
+                return;
+            }
+
+            TroopDistributionResult result = _calculator.Calculate(command);
 
             TroopDistributionTree.Nodes.AddRange(result.ToTree());
             TroopDistributionTree.ExpandAll();
+        }
+
+        private bool GetCommand(out TroopDistributionCommand command)
+        {
+            try
+            {
+                command = new TroopDistributionCommand
+                {
+                    IsPvp = IsPvp,
+                    NumberOfPlayers = NumberOfPlayers,
+                    Ratio = IsPvp ? Ratio : new decimal?(),
+                    SpecialRolePlayers = SpecialRolePlayers,
+                    MinimumFireteamSize = IdealFireteamSize
+                };
+
+                return true;
+            }
+            catch (Exception)
+            {
+                command = new TroopDistributionCommand();
+                return false;
+            }
         }
     }
 }

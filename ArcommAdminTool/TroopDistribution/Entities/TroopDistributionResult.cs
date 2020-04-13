@@ -13,6 +13,8 @@ namespace ArcommAdminTool.TroopDistribution.Entities
 
         public SpecialPlatoon ExtraPlayers { get; set; }
 
+        public SpecialPlatoon Zeus { get; set; }
+
         public TreeNode[] ToTree()
         {
             var nodes = new List<TreeNode>();
@@ -32,6 +34,11 @@ namespace ArcommAdminTool.TroopDistribution.Entities
             if (ExtraPlayers != null)
             {
                 nodes.Add(ExtraPlayers.ToTree());
+            }
+
+            if (Zeus != null)
+            {
+                nodes.Add(Zeus.ToTree());
             }
 
             return nodes.ToArray();

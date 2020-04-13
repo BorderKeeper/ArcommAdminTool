@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using ArcommAdminTool.TroopDistribution.Entities;
 using ArcommAdminTool.TroopDistribution.TrainingData;
@@ -9,6 +8,8 @@ namespace ArcommAdminTool.TroopDistribution
     public class TroopDistributionCalculator
     {
         public static int FullLeadership = 2;
+
+        public static int NumberOfZeuses = 1;
 
         private readonly TrainingDataProvider _dataProvider;
 
@@ -21,7 +22,7 @@ namespace ArcommAdminTool.TroopDistribution
         {
             var trainingDataResult = _dataProvider.GetTrainingData();
 
-            var bluforPlayers = (int) Math.Ceiling(command.IsPvp ? command.PlayersForCalculation * command.Ratio.Value : command.PlayersForCalculation);
+            var bluforPlayers = (int) Math.Ceiling(command.IsPvp ? GetBluforPlayersForPvp(command) : GetBluforPlayersForCoop(command));
             var opforPlayers = command.PlayersForCalculation - bluforPlayers;           
 
             Platoon blufor = ConvertTrainingSet(trainingDataResult, bluforPlayers, command.MinimumFireteamSize, TeamSide.Blufor);
@@ -38,8 +39,19 @@ namespace ArcommAdminTool.TroopDistribution
                 Blufor = blufor,
                 Opfor = opfor,
                 SpecialRoles = command.SpecialRolePlayers != 0 ? new SpecialPlatoon("Special roles", command.SpecialRolePlayers) : null,
-                ExtraPlayers = unusedPlayers != 0 ? new SpecialPlatoon("Unused players", unusedPlayers) : null 
+                ExtraPlayers = unusedPlayers != 0 ? new SpecialPlatoon("Unused players", unusedPlayers) : null,
+                Zeus = command.IsPvp ? null : new SpecialPlatoon("Zeus", NumberOfZeuses)
             };
+        }
+
+        private static int GetBluforPlayersForCoop(TroopDistributionCommand command)
+        {
+            return command.PlayersForCalculation - NumberOfZeuses;
+        }
+
+        private static decimal GetBluforPlayersForPvp(TroopDistributionCommand command)
+        {
+            return command.PlayersForCalculation * command.Ratio.Value;
         }
 
         private Platoon ConvertTrainingSet(TrainingSet set, int numberOfPlayers, int minimumFireteamSize, TeamSide side)

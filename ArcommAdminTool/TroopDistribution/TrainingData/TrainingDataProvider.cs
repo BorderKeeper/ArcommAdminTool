@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Xml.Serialization;
+using ArcommAdminTool.Common.Exceptions;
+using ArcommAdminTool.Common.Exceptions.Enums;
+
 namespace ArcommAdminTool.TroopDistribution.TrainingData
 {
     public class TrainingDataProvider
@@ -22,6 +25,7 @@ namespace ArcommAdminTool.TroopDistribution.TrainingData
             }
             catch (InvalidOperationException ex)
             {
+                ExceptionHandler.LogException($"File could not be parsed. Innex message: {ex}", ex, Severity.Unrecoverable);
                 throw new InvalidOperationException($"File could not be parsed. Innex message: {ex}", ex);
             }
         }
@@ -42,11 +46,13 @@ namespace ArcommAdminTool.TroopDistribution.TrainingData
                     }
                     catch (Exception ex)
                     {
+                        ExceptionHandler.LogException($"File could not be loaded. Inner exception message: {ex}", ex, Severity.Unrecoverable);
                         throw new IOException($"File could not be loaded. Inner exception message: {ex}", ex);
                     }
                 }
             }
 
+            ExceptionHandler.LogException($"{TrainingDataFileName} was not found in root directory. Please place file here: {rootFolder}", Severity.Unrecoverable);
             throw new IOException($"{TrainingDataFileName} was not found in root directory. Please place file here: {rootFolder}");
         }
     }
